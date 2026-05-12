@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:first_project/bottomnav.dart';
 import 'package:first_project/database.dart';
 import 'package:first_project/shared_pref.dart';
@@ -15,7 +16,7 @@ class AuthMethods {
       final GoogleSignInAccount? googleSignInAccount = await _googleSignIn
           .signIn();
 
-      if (googleSignInAccount == null) return; // User ne cancel kiya
+      if (googleSignInAccount == null) return;
 
       final GoogleSignInAuthentication googleSignInAuthentication =
           await googleSignInAccount.authentication;
@@ -40,15 +41,37 @@ class AuthMethods {
           userDetails.displayName ?? '',
         );
 
-        Map<String, dynamic> userInfoMap = {
-          "email": userDetails.email,
-          "name": userDetails.displayName,
-          "image": userDetails.photoURL,
-          "id": userDetails.uid,
-          "Points": "0",
-        };
+        // ✅ FIX: Check karo user pehle se exist karta hai ya nahi
+        DocumentSnapshot existingUser = await FirebaseFirestore.instance
+            .collection("users")
+            .doc(userDetails.uid)
+            .get();
 
-        await DatabaseMethods().addUserInfo(userInfoMap, userDetails.uid);
+        if (!existingUser.exists) {
+          // ✅ Sirf pehli baar naya document banao Points = "0" ke saath
+          Map<String, dynamic> userInfoMap = {
+            "email": userDetails.email,
+            "name": userDetails.displayName,
+            "image": userDetails.photoURL,
+            "id": userDetails.uid,
+            "Points": "0",
+          };
+          await DatabaseMethods().addUserInfo(userInfoMap, userDetails.uid);
+          print("✅ New user created with Points = 0");
+        } else {
+          // ✅ Pehle se user hai — sirf name/email/image update karo, Points mat chhuo!
+          await FirebaseFirestore.instance
+              .collection("users")
+              .doc(userDetails.uid)
+              .update({
+                "email": userDetails.email,
+                "name": userDetails.displayName,
+                "image": userDetails.photoURL,
+              });
+          print(
+            "✅ Existing user — Points preserved: ${existingUser["Points"]}",
+          );
+        }
 
         if (context.mounted) {
           Navigator.pushReplacement(

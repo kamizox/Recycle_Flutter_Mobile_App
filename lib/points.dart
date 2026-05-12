@@ -205,11 +205,32 @@ class _PointsState extends State<Points> {
                                               20.0,
                                             ),
                                           ),
-                                          Text(
-                                            mypoints.toString(),
-                                            style: AppWidget.greentextstyle(
-                                              30.0,
-                                            ),
+                                          // FIX: Real-time StreamBuilder lagaya
+                                          StreamBuilder<DocumentSnapshot>(
+                                            stream: FirebaseFirestore.instance
+                                                .collection("users")
+                                                .doc(id)
+                                                .snapshots(),
+                                            builder: (context, snapshot) {
+                                              String livePoints = "0";
+                                              if (snapshot.hasData &&
+                                                  snapshot.data!.exists) {
+                                                var data =
+                                                    snapshot.data!.data()
+                                                        as Map<String, dynamic>;
+                                                livePoints =
+                                                    data["Points"]
+                                                        ?.toString() ??
+                                                    "0";
+                                                mypoints = livePoints;
+                                              }
+                                              return Text(
+                                                livePoints,
+                                                style: AppWidget.greentextstyle(
+                                                  30.0,
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ],
                                       ),

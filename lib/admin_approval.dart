@@ -24,7 +24,8 @@ class _AdminApprovalState extends State<AdminApproval> {
     super.initState();
   }
 
-  Future<String> getUserPoints(String docId) async {
+  // ✅ FIX: Safe points fetch - String aur Number dono handle karta hai
+  Future<int> getUserPointsSafe(String docId) async {
     try {
       DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
           .collection("users")
@@ -33,13 +34,14 @@ class _AdminApprovalState extends State<AdminApproval> {
       if (docSnapshot.exists) {
         var data = docSnapshot.data() as Map<String, dynamic>;
         var points = data["Points"];
-        return points.toString();
-      } else {
-        return "No such document!";
+        if (points == null) return 0;
+        // String ho ya int - dono safely parse hoga
+        return int.tryParse(points.toString()) ?? 0;
       }
+      return 0;
     } catch (e) {
-      print("Error : $e");
-      return "Error";
+      print("Error fetching points: $e");
+      return 0;
     }
   }
 
@@ -91,7 +93,6 @@ class _AdminApprovalState extends State<AdminApproval> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Name Row
                                   Row(
                                     children: [
                                       Icon(
@@ -112,7 +113,6 @@ class _AdminApprovalState extends State<AdminApproval> {
                                     ],
                                   ),
                                   SizedBox(height: 4.0),
-                                  // Address Row
                                   Row(
                                     children: [
                                       Icon(
@@ -134,7 +134,6 @@ class _AdminApprovalState extends State<AdminApproval> {
                                     ],
                                   ),
                                   SizedBox(height: 4.0),
-                                  // Quantity Row
                                   Row(
                                     children: [
                                       Icon(
@@ -155,28 +154,66 @@ class _AdminApprovalState extends State<AdminApproval> {
                                     ],
                                   ),
                                   SizedBox(height: 8.0),
-                                  // Approve Button
+                                  // ✅ APPROVE BUTTON - FIXED
                                   GestureDetector(
                                     onTap: () async {
-                                      String userpoints = await getUserPoints(
-                                        ds["UserId"],
-                                      );
-                                      int updatedpoints =
-                                          int.parse(userpoints) + 100;
-                                      await DatabaseMethods().updateUserPoints(
-                                        ds["UserId"],
-                                        updatedpoints.toString(),
-                                      );
-                                      await DatabaseMethods()
-                                          .updateAdminRequest(ds.id);
-                                      await DatabaseMethods().updateUserRequest(
-                                        ds["UserId"],
-                                        ds.id,
-                                      );
+                                      try {
+                                        // ✅ Safe int fetch - crash nahi hoga
+                                        int currentPoints =
+                                            await getUserPointsSafe(
+                                              ds["UserId"],
+                                            );
+                                        int updatedPoints = currentPoints + 100;
+
+                                        print(
+                                          "Current points: $currentPoints → Updated: $updatedPoints",
+                                        );
+
+                                        // ✅ Points update karo
+                                        await DatabaseMethods()
+                                            .updateUserPoints(
+                                              ds["UserId"],
+                                              updatedPoints.toString(),
+                                            );
+
+                                        // ✅ Request status update karo
+                                        await DatabaseMethods()
+                                            .updateAdminRequest(ds.id);
+                                        await DatabaseMethods()
+                                            .updateUserRequest(
+                                              ds["UserId"],
+                                              ds.id,
+                                            );
+
+                                        print(
+                                          "✅ Points updated successfully to $updatedPoints",
+                                        );
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              "✅ Approved! +100 points added",
+                                            ),
+                                            backgroundColor: Colors.green,
+                                          ),
+                                        );
+                                      } catch (e) {
+                                        print("❌ Error approving: $e");
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text("Error: $e"),
+                                            backgroundColor: Colors.red,
+                                          ),
+                                        );
+                                      }
                                     },
                                     child: Container(
                                       height: 40,
-                                      width: double.infinity, // fix
+                                      width: double.infinity,
                                       decoration: BoxDecoration(
                                         color: Colors.black,
                                         borderRadius: BorderRadius.circular(10),
