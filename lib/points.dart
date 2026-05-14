@@ -96,24 +96,26 @@ class _PointsState extends State<Points> {
                           ),
                         ),
                         SizedBox(width: 20.0),
-                        Column(
-                          children: [
-                            Text(
-                              "Reedem Points",
-                              style: AppWidget.normaltextstyle(20.0),
-                            ),
-                            Text(
-                              ds["Points"],
-                              style: AppWidget.greentextstyle(26.0),
-                            ),
-                          ],
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                "Reedem Points",
+                                style: AppWidget.normaltextstyle(20.0),
+                              ),
+                              Text(
+                                ds["Points"],
+                                style: AppWidget.greentextstyle(26.0),
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(width: 20.0),
                         Container(
                           padding: EdgeInsets.all(8),
                           decoration: BoxDecoration(
                             color: ds["Status"] == "Approved"
-                                ? Colors.green
+                                ? Color.fromARGB(48, 0, 200, 0)
                                 : Color.fromARGB(48, 241, 77, 66),
                             borderRadius: BorderRadius.circular(10),
                           ),
