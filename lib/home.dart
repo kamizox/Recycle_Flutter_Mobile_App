@@ -41,18 +41,21 @@ class _HomeState extends State<Home> {
         return snapshot.hasData
             ? ListView.builder(
                 padding: EdgeInsets.zero,
+                shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: snapshot.data.docs.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot ds = snapshot.data.docs[index];
                   return Container(
                     margin: EdgeInsets.only(
-                        left: 20.0, right: 20.0, bottom: 10.0),
+                      left: 20.0,
+                      right: 20.0,
+                      bottom: 10.0,
+                    ),
                     width: MediaQuery.of(context).size.width,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      border:
-                          Border.all(color: Colors.black45, width: 2.0),
+                      border: Border.all(color: Colors.black45, width: 2.0),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
@@ -61,8 +64,11 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.location_on,
-                                color: Colors.green, size: 30.0),
+                            Icon(
+                              Icons.location_on,
+                              color: Colors.green,
+                              size: 30.0,
+                            ),
                             SizedBox(width: 10.0),
                             Text(
                               ds["Address"],
@@ -81,8 +87,7 @@ class _HomeState extends State<Home> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Icon(Icons.layers,
-                                color: Colors.green, size: 30.0),
+                            Icon(Icons.layers, color: Colors.green, size: 30.0),
                             SizedBox(width: 10.0),
                             Text(
                               ds["Quantity"],
@@ -118,18 +123,22 @@ class _HomeState extends State<Home> {
                         SizedBox(width: 5.0),
                         Padding(
                           padding: const EdgeInsets.only(left: 5.0),
-                          child: Text("Hello, ",
-                              style: AppWidget.headlinetextstyle(26.0)),
+                          child: Text(
+                            "Hello, ",
+                            style: AppWidget.headlinetextstyle(26.0),
+                          ),
                         ),
                         Text(name!, style: AppWidget.greentextstyle(25.0)),
                         Spacer(),
                         Padding(
                           padding: const EdgeInsets.only(right: 20.0),
                           child: ClipRect(
-                            child: Image.asset("images/boy.jpg",
-                                height: 60,
-                                width: 60,
-                                fit: BoxFit.cover),
+                            child: Image.asset(
+                              "images/boy.jpg",
+                              height: 60,
+                              width: 60,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ],
@@ -144,8 +153,10 @@ class _HomeState extends State<Home> {
                     SizedBox(height: 20.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
-                      child: Text("Categories",
-                          style: AppWidget.headlinetextstyle(24.0)),
+                      child: Text(
+                        "Categories",
+                        style: AppWidget.headlinetextstyle(24.0),
+                      ),
                     ),
                     SizedBox(height: 30.0),
                     Container(
@@ -159,8 +170,8 @@ class _HomeState extends State<Home> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UploadItem(
-                                      category: "Plastic", id: id!),
+                                  builder: (context) =>
+                                      UploadItem(category: "Plastic", id: id!),
                                 ),
                               );
                             },
@@ -172,16 +183,22 @@ class _HomeState extends State<Home> {
                                     color: Color(0xFFececf8),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                        color: Colors.black45, width: 2.0),
+                                      color: Colors.black45,
+                                      width: 2.0,
+                                    ),
                                   ),
-                                  child: Image.asset("images/plastic.png",
-                                      height: 70,
-                                      width: 70,
-                                      fit: BoxFit.cover),
+                                  child: Image.asset(
+                                    "images/plastic.png",
+                                    height: 70,
+                                    width: 70,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 SizedBox(height: 5.0),
-                                Text("Plastic",
-                                    style: AppWidget.normaltextstyle(20.0)),
+                                Text(
+                                  "Plastic",
+                                  style: AppWidget.normaltextstyle(20.0),
+                                ),
                               ],
                             ),
                           ),
@@ -191,8 +208,8 @@ class _HomeState extends State<Home> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UploadItem(
-                                      category: "Paper", id: id!),
+                                  builder: (context) =>
+                                      UploadItem(category: "Paper", id: id!),
                                 ),
                               );
                             },
@@ -204,16 +221,22 @@ class _HomeState extends State<Home> {
                                     color: Color(0xFFececf8),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                        color: Colors.black45, width: 2.0),
+                                      color: Colors.black45,
+                                      width: 2.0,
+                                    ),
                                   ),
-                                  child: Image.asset("images/paper.png",
-                                      height: 70,
-                                      width: 70,
-                                      fit: BoxFit.cover),
+                                  child: Image.asset(
+                                    "images/paper.png",
+                                    height: 70,
+                                    width: 70,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 SizedBox(height: 5.0),
-                                Text("Paper",
-                                    style: AppWidget.normaltextstyle(20.0)),
+                                Text(
+                                  "Paper",
+                                  style: AppWidget.normaltextstyle(20.0),
+                                ),
                               ],
                             ),
                           ),
@@ -223,8 +246,8 @@ class _HomeState extends State<Home> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UploadItem(
-                                      category: "Battery", id: id!),
+                                  builder: (context) =>
+                                      UploadItem(category: "Battery", id: id!),
                                 ),
                               );
                             },
@@ -236,16 +259,22 @@ class _HomeState extends State<Home> {
                                     color: Color(0xFFececf8),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                        color: Colors.black45, width: 2.0),
+                                      color: Colors.black45,
+                                      width: 2.0,
+                                    ),
                                   ),
-                                  child: Image.asset("images/battery.png",
-                                      height: 70,
-                                      width: 70,
-                                      fit: BoxFit.cover),
+                                  child: Image.asset(
+                                    "images/battery.png",
+                                    height: 70,
+                                    width: 70,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 SizedBox(height: 5.0),
-                                Text("Battery",
-                                    style: AppWidget.normaltextstyle(20.0)),
+                                Text(
+                                  "Battery",
+                                  style: AppWidget.normaltextstyle(20.0),
+                                ),
                               ],
                             ),
                           ),
@@ -255,8 +284,8 @@ class _HomeState extends State<Home> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UploadItem(
-                                      category: "Glass", id: id!),
+                                  builder: (context) =>
+                                      UploadItem(category: "Glass", id: id!),
                                 ),
                               );
                             },
@@ -268,16 +297,22 @@ class _HomeState extends State<Home> {
                                     color: Color(0xFFececf8),
                                     borderRadius: BorderRadius.circular(20),
                                     border: Border.all(
-                                        color: Colors.black45, width: 2.0),
+                                      color: Colors.black45,
+                                      width: 2.0,
+                                    ),
                                   ),
-                                  child: Image.asset("images/glass.png",
-                                      height: 70,
-                                      width: 70,
-                                      fit: BoxFit.cover),
+                                  child: Image.asset(
+                                    "images/glass.png",
+                                    height: 70,
+                                    width: 70,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                                 SizedBox(height: 5.0),
-                                Text("Glass",
-                                    style: AppWidget.normaltextstyle(20.0)),
+                                Text(
+                                  "Glass",
+                                  style: AppWidget.normaltextstyle(20.0),
+                                ),
                               ],
                             ),
                           ),
@@ -287,14 +322,13 @@ class _HomeState extends State<Home> {
                     SizedBox(height: 10.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0),
-                      child: Text("Pending Request",
-                          style: AppWidget.headlinetextstyle(22.0)),
+                      child: Text(
+                        "Pending Request",
+                        style: AppWidget.headlinetextstyle(22.0),
+                      ),
                     ),
                     SizedBox(height: 20.0),
-                    Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      child: allPendingRequests(),
-                    ),
+                    allPendingRequests(), // ← Fixed: container with fixed height hata diya
                     SizedBox(height: 30.0),
                   ],
                 ),
