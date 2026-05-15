@@ -10,9 +10,9 @@ A Flutter-based mobile application that encourages users to recycle household wa
 |---|---|---|
 | ![Onboarding](screenshots/onboarding.jpg) | ![Sign In](screenshots/signin.jpg) | ![Home](screenshots/home.jpg) |
 
-| Points Page | Redeem Approval | Profile |
+| Points Page | Admin Login | Profile |
 |---|---|---|
-| ![Points](screenshots/points.jpg) | ![Redeem](screenshots/redeem.jpg) | ![Profile](screenshots/profile.jpg) |
+| ![Points](screenshots/points.jpg) | ![Redeem](screenshots/admin_login.jpg) | ![Profile](screenshots/profile.jpg) |
 
 ---
 
