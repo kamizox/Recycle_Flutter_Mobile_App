@@ -104,7 +104,7 @@ class _AdminReedemState extends State<AdminReedem> {
                                   SizedBox(width: 10.0),
                                   Expanded(
                                     child: Text(
-                                      "UPI ID:" + ds["UPI"],
+                                      "Acc No:" + ds["UPI"],
                                       style: AppWidget.normaltextstyle(18.0),
                                     ),
                                   ),
